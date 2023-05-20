@@ -45,6 +45,18 @@ func (apiCfg *apiConfig) getUserHandler(w http.ResponseWriter, r *http.Request, 
 	respondJSON(w, http.StatusOK, databaseUserToUser(user))
 }
 
+func (apiCfg *apiConfig) getPostsForUserHandler(w http.ResponseWriter, r *http.Request, user database.User) {
+	posts, err := apiCfg.DB.GetPostsForUser(r.Context(), database.GetPostsForUserParams{
+		UserID: user.ID,
+		Limit:  10,
+	})
+	if err != nil {
+		respondWithError(w, http.StatusBadRequest, err.Error())
+		return
+	}
+	respondJSON(w, http.StatusOK, databasePostsToPosts(posts))
+}
+
 func (apiCfg *apiConfig) createFeedHandler(w http.ResponseWriter, r *http.Request, user database.User) {
 	var params struct {
 		Name string `json:"name"`
