@@ -1,8 +1,8 @@
 build:
-	@go build -o bin/rssagg .
+	go build -o bin/rssagg .
 
 run: build
-	@./bin/rssagg
+	./bin/rssagg
 
 tidy:
 	@go mod tidy

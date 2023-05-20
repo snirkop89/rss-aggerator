@@ -2,7 +2,6 @@ package main
 
 import (
 	"database/sql"
-	"fmt"
 	"log"
 	"net/http"
 	"os"
@@ -21,12 +20,6 @@ type apiConfig struct {
 
 func main() {
 	godotenv.Load()
-
-	feed, err := urlToFeed("https://wagslane.dev/index.xml")
-	if err != nil {
-		log.Fatal(err)
-	}
-	fmt.Println(feed)
 
 	portStr := os.Getenv("PORT")
 	if portStr == "" {
@@ -53,7 +46,7 @@ func main() {
 		DB: database.New(conn),
 	}
 
-	go startScraping(apiCfg.DB, 10, time.Minute)
+	go startScraping(apiCfg.DB, 10, 5*time.Second)
 
 	router := chi.NewRouter()
 	router.Use(cors.Handler(cors.Options{
