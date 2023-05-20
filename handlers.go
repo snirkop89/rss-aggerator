@@ -76,7 +76,7 @@ func (apiCfg *apiConfig) getFeedsHandler(w http.ResponseWriter, r *http.Request)
 		respondWithError(w, http.StatusInternalServerError, fmt.Sprintf("Error getting feeds: %v", err))
 		return
 	}
-	respondJSON(w, http.StatusOK, databaseFeedsToFeeds(feeds))
+	respondJSON(w, http.StatusOK, feeds)
 }
 
 func (apiCfg *apiConfig) createFeedFollowHandler(w http.ResponseWriter, r *http.Request, user database.User) {
